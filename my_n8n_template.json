@@ -1,0 +1,483 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "command": "python scraper_final.py"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -140,
+        460
+      ],
+      "id": "3753708e-ca59-4479-b2b2-07a4b986aacd",
+      "name": "Run Scraper Script"
+    },
+    {
+      "parameters": {
+        "fileSelector": "job_listing.csv",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        100,
+        460
+      ],
+      "id": "0c038b03-ea4e-47d3-b832-131cc943cb87",
+      "name": "Load Job Listings CSV"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        340,
+        460
+      ],
+      "id": "f1ad83ce-ff5f-41d9-8afe-0ee2755c183e",
+      "name": "Parse CSV Data"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "84dc5909-4ddc-4ca2-bea4-b0431d982591",
+              "name": "job_id",
+              "value": "={{ $json.job_id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        600,
+        460
+      ],
+      "id": "d15cc36f-62ef-447f-8bed-5b85a7d682cf",
+      "name": "Transform Job Data"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "1904bf6b-83b3-80a9-99c0-d92afa4a31e1",
+          "mode": "list",
+          "cachedResultName": "Internship Search",
+          "cachedResultUrl": "https://www.notion.so/1904bf6b83b380a999c0d92afa4a31e1"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Job Id|number",
+              "numberValue": "={{ $json.job_id }}"
+            },
+            {
+              "key": "Job Link|url",
+              "urlValue": "={{ $json.job_url }}"
+            },
+            {
+              "key": "Company|rich_text",
+              "textContent": "={{ $json.company_name }}"
+            },
+            {
+              "key": "Job Title|title",
+              "title": "={{ $json.job_title }}"
+            },
+            {
+              "key": "Time Posted|select",
+              "selectValue": "={{ $json.time_posted }}"
+            },
+            {
+              "key": "Number Of Applicants|rich_text",
+              "textContent": "={{ $json.num_applicants }}"
+            },
+            {
+              "key": "Location|rich_text",
+              "textContent": "={{ $json.job_location }}"
+            },
+            {
+              "key": "=Experience Needed|rich_text",
+              "textContent": "={{ $json.experience_needed }}"
+            },
+            {
+              "key": "Job Description|rich_text",
+              "textContent": "={{ $json.description_content.length > 1997 ? $json.description_content.substring(0, 1997) + '...' : $json.description_content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1420,
+        440
+      ],
+      "id": "f93971c7-e523-4e73-95ab-fd347d785b11",
+      "name": "Notion: Create Job Entry",
+      "credentials": {
+        "notionApi": {
+          "id": "ibeaQCXk3bvfzQZs",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1904bf6b-83b3-80a9-99c0-d92afa4a31e1",
+          "mode": "list",
+          "cachedResultName": "Internship Search",
+          "cachedResultUrl": "https://www.notion.so/1904bf6b83b380a999c0d92afa4a31e1"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "options": {
+          "sort": {
+            "sortValue": [
+              {
+                "key": "Created time|created_time",
+                "direction": "descending"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -620,
+        -380
+      ],
+      "id": "a2a98df0-7fba-45c6-81e5-5a9bca658dfe",
+      "name": "Notion: Fetch Existing Jobs",
+      "executeOnce": true,
+      "credentials": {
+        "notionApi": {
+          "id": "ibeaQCXk3bvfzQZs",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "property_job_id",
+              "field2": "job_id"
+            },
+            {
+              "field1": "property_job_link",
+              "field2": "job_url"
+            }
+          ]
+        },
+        "joinMode": "keepNonMatches",
+        "outputDataFrom": "input2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1140,
+        440
+      ],
+      "id": "5415171d-8bb4-494e-9515-521e0751374e",
+      "name": "Merge Job Data"
+    },
+    {
+      "parameters": {
+        "fileSelector": "config.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        -180
+      ],
+      "id": "474c1287-81ce-45a3-a8b8-d411ea307515",
+      "name": "Load Config File"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c4dcfb4e-89ab-472b-b16d-902d7c48fd8a",
+              "name": "=data.NUM_JOBS_PER_QUERY",
+              "value": "=50",
+              "type": "number"
+            },
+            {
+              "id": "f12dda85-b4c9-4d4f-b3aa-f652e8c00482",
+              "name": "data.PAGE_DELAY",
+              "value": "=1",
+              "type": "number"
+            },
+            {
+              "id": "f35a1d22-3bf7-4165-9682-82973cc43eb0",
+              "name": "data.RETRY_WAIT_NON_429",
+              "value": "=10",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -360,
+        240
+      ],
+      "id": "2e50a7a5-d572-4f49-9cb6-b112bba49f45",
+      "name": "Set Config Parameters"
+    },
+    {
+      "parameters": {
+        "executeOnce": false,
+        "command": "=echo '{ \"BASE_LIST_URL\": \"https://www.linkedin.com/jobs/search/\", \"BASE_JOB_URL\": \"https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/{}\", \"NUM_JOBS_PER_QUERY\": {{ $json.data.NUM_JOBS_PER_QUERY }}, \"SEARCH_QUERIES\": [ { \"keywords\": \"{{ $json.data.SEARCH_QUERIES[0].keywords }}\", \"location\": \"{{ $json.data.SEARCH_QUERIES[0].location }}\", \"f_E\": \"{{ $json.data.SEARCH_QUERIES[0].f_E }}\" }, { \"keywords\": \"{{ $json.data.SEARCH_QUERIES[1].keywords }}\", \"location\": \"{{ $json.data.SEARCH_QUERIES[1].location }}\", \"f_E\": \"{{ $json.data.SEARCH_QUERIES[1].f_E }}\" }, { \"keywords\": \"{{ $json.data.SEARCH_QUERIES[2].keywords }}\", \"location\": \"{{ $json.data.SEARCH_QUERIES[2].location }}\", \"f_E\": \"{{ $json.data.SEARCH_QUERIES[2].f_E }}\" } ], \"REQUEST_TIMEOUT\": {{ $json.data.REQUEST_TIMEOUT }}, \"PAGE_DELAY\": {{ $json.data.PAGE_DELAY }}, \"CSV_FILENAME\": \"{{ $json.data.CSV_FILENAME }}\", \"INITIAL_HEADERS_COUNT\": {{ $json.data.INITIAL_HEADERS_COUNT }}, \"RANDOM_HEADERS_COUNT\": {{ $json.data.RANDOM_HEADERS_COUNT }}, \"MAX_ATTEMPTS\": {{ $json.data.MAX_ATTEMPTS }}, \"RETRY_WAIT_429\": {{ $json.data.RETRY_WAIT_429 }}, \"RETRY_WAIT_NON_429\": {{ $json.data.RETRY_WAIT_NON_429 }}, \"OUTPUT_FIELDS\": [ \"{{ $json.data.OUTPUT_FIELDS[0] }}\", \"{{ $json.data.OUTPUT_FIELDS[1] }}\", \"{{ $json.data.OUTPUT_FIELDS[2] }}\", \"{{ $json.data.OUTPUT_FIELDS[3] }}\", \"{{ $json.data.OUTPUT_FIELDS[4] }}\", \"{{ $json.data.OUTPUT_FIELDS[5] }}\", \"{{ $json.data.OUTPUT_FIELDS[6] }}\", \"{{ $json.data.OUTPUT_FIELDS[7] }}\", \"{{ $json.data.OUTPUT_FIELDS[8] }}\" ] }' > config.json && cat config.json\n"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        460
+      ],
+      "id": "74d9672f-9425-4c41-b622-0b95fc4e2eaf",
+      "name": "Generate Config File"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        40
+      ],
+      "id": "8ea4eae7-6790-4ff0-b8a8-af2c3f260f9e",
+      "name": "Parse Config File"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 12
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -620,
+        -180
+      ],
+      "id": "fbf477bb-13b2-4743-9f28-9042d5f188c5",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        840,
+        460
+      ],
+      "id": "0bcaf083-b788-4cc5-a43e-cd91db1cef65",
+      "name": "Remove Duplicates"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        -380
+      ],
+      "id": "9c367126-22e0-49e9-bf3e-5e9580dbc24f",
+      "name": "Remove Duplicates1"
+    }
+  ],
+  "connections": {
+    "Run Scraper Script": {
+      "main": [
+        [
+          {
+            "node": "Load Job Listings CSV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Job Listings CSV": {
+      "main": [
+        [
+          {
+            "node": "Parse CSV Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse CSV Data": {
+      "main": [
+        [
+          {
+            "node": "Transform Job Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform Job Data": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion: Fetch Existing Jobs": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Job Data": {
+      "main": [
+        [
+          {
+            "node": "Notion: Create Job Entry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Config File": {
+      "main": [
+        [
+          {
+            "node": "Parse Config File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Config Parameters": {
+      "main": [
+        [
+          {
+            "node": "Generate Config File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Config File": {
+      "main": [
+        [
+          {
+            "node": "Run Scraper Script",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Config File": {
+      "main": [
+        [
+          {
+            "node": "Set Config Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Load Config File",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notion: Fetch Existing Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates": {
+      "main": [
+        [
+          {
+            "node": "Merge Job Data",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates1": {
+      "main": [
+        [
+          {
+            "node": "Merge Job Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "595649ac935a6dff15bd8cea67f0462a3714768e71af7717e94e224aee2be70b"
+  }
+}
