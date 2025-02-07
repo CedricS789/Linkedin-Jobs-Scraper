@@ -1,7 +1,7 @@
 {
     "BASE_LIST_URL": "https://www.linkedin.com/jobs/search/",
     "BASE_JOB_URL": "https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/{}",
-    "NUM_JOBS_PER_QUERY": 200,
+    "NUM_JOBS_PER_QUERY": 500,
     "SEARCH_QUERIES": [
       {
         "keywords": "electrical engineering",
