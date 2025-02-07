@@ -8,10 +8,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        500,
-        740
+        200,
+        840
       ],
-      "id": "e5cb6a82-9994-4a7a-a840-e9bd602211c4",
+      "id": "c2068808-08ea-4a52-9eb0-04107d0fc469",
       "name": "Run Scraper Script"
     },
     {
@@ -22,10 +22,10 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1,
       "position": [
-        680,
-        740
+        380,
+        840
       ],
-      "id": "9697a9c6-edd1-49da-aeee-b95535c11e3e",
+      "id": "dac0280a-5275-4f26-b463-b3ffecd6c93d",
       "name": "Load Job Listings CSV"
     },
     {
@@ -35,10 +35,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        860,
-        740
+        560,
+        840
       ],
-      "id": "66ec2d23-0747-4e89-b9d5-f980e8964456",
+      "id": "6bfa7b25-9109-47e5-9a51-44d5e49b1d3e",
       "name": "Parse CSV Data"
     },
     {
@@ -73,10 +73,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1040,
-        740
+        740,
+        840
       ],
-      "id": "b7ae5a95-ab25-4861-b2b4-8225d4e4a30a",
+      "id": "62fa10ed-5349-42bb-b1fd-9108296316ac",
       "name": "Transform Job Data"
     },
     {
@@ -106,16 +106,16 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        780,
-        -100
+        480,
+        0
       ],
-      "id": "40dac092-648e-4feb-921d-02679c58ee83",
+      "id": "10e64e32-2954-48a2-8a3a-bc9b8bde3513",
       "name": "Notion: Fetch Existing Jobs",
       "executeOnce": true,
       "alwaysOutputData": true,
       "credentials": {
         "notionApi": {
-          "id": "i2VF7jTgl2AkAKzI",
+          "id": "Z7nhkVEklA4UFa8g",
           "name": "Notion account"
         }
       }
@@ -128,10 +128,10 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1,
       "position": [
-        320,
-        100
+        20,
+        200
       ],
-      "id": "8d9e8f74-e5c4-4da6-b99b-a9d374d4bbd6",
+      "id": "e733f118-ecb1-41f9-acba-7aaa18e152f0",
       "name": "Load Config File"
     },
     {
@@ -141,7 +141,7 @@
             {
               "id": "c4dcfb4e-89ab-472b-b16d-902d7c48fd8a",
               "name": "=data.NUM_JOBS_PER_QUERY",
-              "value": "=50",
+              "value": "=200",
               "type": "number"
             },
             {
@@ -164,10 +164,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        320,
-        520
+        20,
+        620
       ],
-      "id": "754abf3c-5754-4417-af59-306465b9d5aa",
+      "id": "81694c7c-b773-425b-b4eb-75333472b734",
       "name": "Set Config Parameters"
     },
     {
@@ -178,10 +178,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        320,
-        740
+        20,
+        840
       ],
-      "id": "fbf0a05e-79f7-406b-97ed-6c49ab8577f5",
+      "id": "eda18675-7475-4fed-a5d6-e25c72e8c6c5",
       "name": "Generate Config File"
     },
     {
@@ -192,10 +192,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        320,
-        320
+        20,
+        420
       ],
-      "id": "01dcb463-ce7c-48b1-85a0-7625d2ec6062",
+      "id": "68504f60-406a-43c7-9f9d-754661984c33",
       "name": "Parse Config File"
     },
     {
@@ -212,10 +212,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        300,
-        -100
+        0,
+        0
       ],
-      "id": "0e498317-26bb-4f17-b7e8-311a0bc85432",
+      "id": "e18c3159-1acb-4b64-9b4d-c7ab608b1fe7",
       "name": "Schedule Trigger"
     },
     {
@@ -225,10 +225,10 @@
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        1240,
-        740
+        940,
+        840
       ],
-      "id": "2e493b76-1058-4439-81aa-a5fde4a5726c",
+      "id": "fe11f0c4-805b-41fb-af43-533556f74ea5",
       "name": "Remove Duplicates"
     },
     {
@@ -238,10 +238,10 @@
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        1680,
-        -100
+        1380,
+        0
       ],
-      "id": "2f2c7219-b286-410a-be44-5bfadda27716",
+      "id": "88761ee0-b748-44b5-85cf-1638238dfce4",
       "name": "Remove Duplicates1"
     },
     {
@@ -266,15 +266,15 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        600,
-        960
+        300,
+        1060
       ],
-      "id": "aa5eaf53-f6ec-4fc2-86c4-cc6c55b68690",
+      "id": "aac4b26d-07ac-43b2-bf31-9e403646396f",
       "name": "OpenAI",
       "alwaysOutputData": false,
       "credentials": {
         "openAiApi": {
-          "id": "p3IzBlmoDBA5IIDS",
+          "id": "Pp8ayoMT1CQr8vkn",
           "name": "OpenAi account"
         }
       },
@@ -298,17 +298,17 @@
           "maxTokens": 2048
         }
       },
-      "id": "36e55985-0d83-40f7-84c4-5840934e20e6",
+      "id": "f0eddc67-2584-4044-8f4e-373720ba3747",
       "name": "Generate article with DeepSeek1",
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "position": [
-        340,
-        980
+        40,
+        1080
       ],
       "typeVersion": 1.8,
       "credentials": {
         "openAiApi": {
-          "id": "p3IzBlmoDBA5IIDS",
+          "id": "Pp8ayoMT1CQr8vkn",
           "name": "OpenAi account"
         }
       }
@@ -344,10 +344,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        580,
-        1120
+        280,
+        1220
       ],
-      "id": "6e274d17-7909-4a66-9064-387d3ea6627c",
+      "id": "5f559af7-d65d-4972-9e90-d15a6597fd3c",
       "name": "Merge Job Data1"
     },
     {
@@ -382,10 +382,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        900,
-        1100
+        600,
+        1200
       ],
-      "id": "48f0d9a8-2122-458e-b36c-d0cf67ef4cc5",
+      "id": "ee454b47-3d9e-44f7-8ce3-0348149d3e31",
       "name": "Switch"
     },
     {
@@ -393,10 +393,10 @@
       "type": "n8n-nodes-base.executionData",
       "typeVersion": 1,
       "position": [
-        1160,
-        1080
+        860,
+        1180
       ],
-      "id": "6fa6250f-23cf-4d5d-a052-d4552de6b9b6",
+      "id": "720afee0-7c3d-4964-9b7b-3e9a1f720d03",
       "name": "Execution Data"
     },
     {
@@ -454,14 +454,14 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        1440,
-        340
+        1140,
+        440
       ],
-      "id": "5a41b894-2634-47db-81a7-8bd731bade7b",
+      "id": "82edd09a-1d86-438a-8883-db327093516f",
       "name": "Notion: Create Job Entry",
       "credentials": {
         "notionApi": {
-          "id": "i2VF7jTgl2AkAKzI",
+          "id": "Z7nhkVEklA4UFa8g",
           "name": "Notion account"
         }
       }
@@ -497,10 +497,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        1740,
-        720
+        1440,
+        820
       ],
-      "id": "7467384a-77c7-4467-99df-af1d836d5b78",
+      "id": "4351d9f2-a5ff-46c5-a8ff-7f394afa7fa8",
       "name": "Data To Update"
     },
     {
@@ -530,10 +530,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        1240,
-        340
+        940,
+        440
       ],
-      "id": "6e09878d-7bfc-4f9c-9e8f-52c8a2d7a126",
+      "id": "895ef35e-782c-43ae-9f88-7f6dfed27933",
       "name": "Data To Create"
     },
     {
@@ -558,14 +558,14 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        2160,
-        720
+        1860,
+        820
       ],
-      "id": "3015c10c-6696-4004-83b8-352ecc3781f7",
+      "id": "325931a9-1536-4be1-a986-f0235dfca37c",
       "name": "Notion1",
       "credentials": {
         "notionApi": {
-          "id": "i2VF7jTgl2AkAKzI",
+          "id": "Z7nhkVEklA4UFa8g",
           "name": "Notion account"
         }
       }
@@ -598,14 +598,14 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        1940,
-        720
+        1640,
+        820
       ],
-      "id": "cbff3e1c-b065-4a3e-8d7d-ee49c9e6d248",
+      "id": "4e9ffe7c-d9f5-45ba-a76b-693f49653c2a",
       "name": "Notion",
       "credentials": {
         "notionApi": {
-          "id": "i2VF7jTgl2AkAKzI",
+          "id": "Z7nhkVEklA4UFa8g",
           "name": "Notion account"
         }
       }
@@ -760,21 +760,6 @@
         ]
       ]
     },
-    "OpenAI": {
-      "main": [
-        []
-      ]
-    },
-    "Merge Job Data1": {
-      "main": [
-        []
-      ]
-    },
-    "Execution Data": {
-      "main": [
-        []
-      ]
-    },
     "Data To Update": {
       "main": [
         [
@@ -784,11 +769,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "Notion1": {
-      "main": [
-        []
       ]
     },
     "Data To Create": {
@@ -818,11 +798,11 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "be7e5256-b663-44c7-a69d-e81498034a05",
+  "versionId": "0d853812-fd00-427c-9bae-c534c6a6a3bf",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "238d409f3ebff0e69a013366ecb830ef0fb1802af1fc88319da90f11fba572a1"
+    "instanceId": "d637e5764776828a38d3cd8fb01639bc63536c0e3d98ed216e17008df032fa03"
   },
-  "id": "hHrooKM5caps3Ky5",
+  "id": "A9UzQJasJAXaLn8z",
   "tags": []
 }
