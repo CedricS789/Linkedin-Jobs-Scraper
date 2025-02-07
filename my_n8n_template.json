@@ -1,4 +1,5 @@
 {
+  "name": "My workflow",
   "nodes": [
     {
       "parameters": {
@@ -7,10 +8,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -140,
-        460
+        500,
+        740
       ],
-      "id": "3753708e-ca59-4479-b2b2-07a4b986aacd",
+      "id": "e5cb6a82-9994-4a7a-a840-e9bd602211c4",
       "name": "Run Scraper Script"
     },
     {
@@ -21,10 +22,10 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1,
       "position": [
-        100,
-        460
+        680,
+        740
       ],
-      "id": "0c038b03-ea4e-47d3-b832-131cc943cb87",
+      "id": "9697a9c6-edd1-49da-aeee-b95535c11e3e",
       "name": "Load Job Listings CSV"
     },
     {
@@ -34,10 +35,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        340,
-        460
+        860,
+        740
       ],
-      "id": "f1ad83ce-ff5f-41d9-8afe-0ee2755c183e",
+      "id": "66ec2d23-0747-4e89-b9d5-f980e8964456",
       "name": "Parse CSV Data"
     },
     {
@@ -49,87 +50,34 @@
               "name": "job_id",
               "value": "={{ $json.job_id }}",
               "type": "number"
+            },
+            {
+              "id": "e8499e0b-c55b-4981-84b6-504086e1a8e6",
+              "name": "job_match",
+              "value": null,
+              "type": "number"
+            },
+            {
+              "id": "9eef09ea-75c6-45f4-ad29-66a173bc3b2a",
+              "name": "loaded",
+              "value": "no",
+              "type": "string"
             }
           ]
         },
         "includeOtherFields": true,
-        "options": {}
+        "options": {
+          "ignoreConversionErrors": false
+        }
       },
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        600,
-        460
+        1040,
+        740
       ],
-      "id": "d15cc36f-62ef-447f-8bed-5b85a7d682cf",
+      "id": "b7ae5a95-ab25-4861-b2b4-8225d4e4a30a",
       "name": "Transform Job Data"
-    },
-    {
-      "parameters": {
-        "resource": "databasePage",
-        "databaseId": {
-          "__rl": true,
-          "value": "1904bf6b-83b3-80a9-99c0-d92afa4a31e1",
-          "mode": "list",
-          "cachedResultName": "Internship Search",
-          "cachedResultUrl": "https://www.notion.so/1904bf6b83b380a999c0d92afa4a31e1"
-        },
-        "propertiesUi": {
-          "propertyValues": [
-            {
-              "key": "Job Id|number",
-              "numberValue": "={{ $json.job_id }}"
-            },
-            {
-              "key": "Job Link|url",
-              "urlValue": "={{ $json.job_url }}"
-            },
-            {
-              "key": "Company|rich_text",
-              "textContent": "={{ $json.company_name }}"
-            },
-            {
-              "key": "Job Title|title",
-              "title": "={{ $json.job_title }}"
-            },
-            {
-              "key": "Time Posted|select",
-              "selectValue": "={{ $json.time_posted }}"
-            },
-            {
-              "key": "Number Of Applicants|rich_text",
-              "textContent": "={{ $json.num_applicants }}"
-            },
-            {
-              "key": "Location|rich_text",
-              "textContent": "={{ $json.job_location }}"
-            },
-            {
-              "key": "=Experience Needed|rich_text",
-              "textContent": "={{ $json.experience_needed }}"
-            },
-            {
-              "key": "Job Description|rich_text",
-              "textContent": "={{ $json.description_content.length > 1997 ? $json.description_content.substring(0, 1997) + '...' : $json.description_content }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.notion",
-      "typeVersion": 2.2,
-      "position": [
-        1420,
-        440
-      ],
-      "id": "f93971c7-e523-4e73-95ab-fd347d785b11",
-      "name": "Notion: Create Job Entry",
-      "credentials": {
-        "notionApi": {
-          "id": "ibeaQCXk3bvfzQZs",
-          "name": "Notion account"
-        }
-      }
     },
     {
       "parameters": {
@@ -158,47 +106,19 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        -620,
-        -380
+        780,
+        -100
       ],
-      "id": "a2a98df0-7fba-45c6-81e5-5a9bca658dfe",
+      "id": "40dac092-648e-4feb-921d-02679c58ee83",
       "name": "Notion: Fetch Existing Jobs",
       "executeOnce": true,
+      "alwaysOutputData": true,
       "credentials": {
         "notionApi": {
-          "id": "ibeaQCXk3bvfzQZs",
+          "id": "i2VF7jTgl2AkAKzI",
           "name": "Notion account"
         }
       }
-    },
-    {
-      "parameters": {
-        "mode": "combine",
-        "advanced": true,
-        "mergeByFields": {
-          "values": [
-            {
-              "field1": "property_job_id",
-              "field2": "job_id"
-            },
-            {
-              "field1": "property_job_link",
-              "field2": "job_url"
-            }
-          ]
-        },
-        "joinMode": "keepNonMatches",
-        "outputDataFrom": "input2",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3,
-      "position": [
-        1140,
-        440
-      ],
-      "id": "5415171d-8bb4-494e-9515-521e0751374e",
-      "name": "Merge Job Data"
     },
     {
       "parameters": {
@@ -208,10 +128,10 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1,
       "position": [
-        -360,
-        -180
+        320,
+        100
       ],
-      "id": "474c1287-81ce-45a3-a8b8-d411ea307515",
+      "id": "8d9e8f74-e5c4-4da6-b99b-a9d374d4bbd6",
       "name": "Load Config File"
     },
     {
@@ -244,10 +164,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -360,
-        240
+        320,
+        520
       ],
-      "id": "2e50a7a5-d572-4f49-9cb6-b112bba49f45",
+      "id": "754abf3c-5754-4417-af59-306465b9d5aa",
       "name": "Set Config Parameters"
     },
     {
@@ -258,10 +178,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -360,
-        460
+        320,
+        740
       ],
-      "id": "74d9672f-9425-4c41-b622-0b95fc4e2eaf",
+      "id": "fbf0a05e-79f7-406b-97ed-6c49ab8577f5",
       "name": "Generate Config File"
     },
     {
@@ -272,10 +192,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        -360,
-        40
+        320,
+        320
       ],
-      "id": "8ea4eae7-6790-4ff0-b8a8-af2c3f260f9e",
+      "id": "01dcb463-ce7c-48b1-85a0-7625d2ec6062",
       "name": "Parse Config File"
     },
     {
@@ -292,10 +212,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -620,
-        -180
+        300,
+        -100
       ],
-      "id": "fbf477bb-13b2-4743-9f28-9042d5f188c5",
+      "id": "0e498317-26bb-4f17-b7e8-311a0bc85432",
       "name": "Schedule Trigger"
     },
     {
@@ -305,10 +225,10 @@
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        840,
-        460
+        1240,
+        740
       ],
-      "id": "0bcaf083-b788-4cc5-a43e-cd91db1cef65",
+      "id": "2e493b76-1058-4439-81aa-a5fde4a5726c",
       "name": "Remove Duplicates"
     },
     {
@@ -318,13 +238,380 @@
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        1200,
-        -380
+        1680,
+        -100
       ],
-      "id": "9c367126-22e0-49e9-bf3e-5e9580dbc24f",
+      "id": "2f2c7219-b286-410a-be44-5bfadda27716",
       "name": "Remove Duplicates1"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "deepseek-chat",
+          "mode": "id"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Role:\nYou are a recruitment specialist matching candidate profiles with job postings.\n\nCandidate:\nFirst-year Master's student in Electronics and Telecommunications Engineering seeking an internship (no full/part-time jobs) in Belgium. Limited direct experience; has worked at McDonald's, FedEx, and tutors math/physics. Skills include basic electronics, circuit analysis, PCB design, VHDL, FPGAs, simulation tools; programming in Python, C, C++, MATLAB (Simulink); strong communication, teamwork, problem-solving, and time management. Languages: French (Native), English (Proficient), Dutch (Basic).\n\nInstructions:\nAnalyze the job posting details and generate a \"Job Match Percentage\" (0-100) reflecting the fit with this candidate. If \"N/A\" appears for experience, treat it as unknown. If any critical info is missing, return:\n{\n  \"job_match_percentage\": \"\",\n  \"explanation\": \"\"\n}\nOtherwise, return a JSON object with:\n- \"job_match_percentage\": integer (0-100)\n- \"explanation\": one-sentence explanation.\n\nJob Posting Input:\nCompany Name:         {{ $json.company_name }}\nJob Title:            {{ $json.job_title }}\nTime Posted:          {{ $json.time_posted }}\nNumber of Applicants: {{ $json.num_applicants }}\nJob Description:      {{ $json.description_content }}\nExperience Needed:    {{ $json.experience_needed }}\n\nExample Good Output:\n{\n  \"job_match_percentage\": 20,\n  \"explanation\": \"Job targets Management/Business, not matching candidate's technical focus; transferable skills add some value.\"\n}\n\nExample Bad Output:\nJob Match: 80\nThis role is perfect because it's in Belgium and the candidate has some work experience. The candidate should apply immediately.\n"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "maxTokens": 2040
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        600,
+        960
+      ],
+      "id": "aa5eaf53-f6ec-4fc2-86c4-cc6c55b68690",
+      "name": "OpenAI",
+      "alwaysOutputData": false,
+      "credentials": {
+        "openAiApi": {
+          "id": "p3IzBlmoDBA5IIDS",
+          "name": "OpenAi account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "=deepseek-chat",
+          "mode": "id"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Hi"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 2048
+        }
+      },
+      "id": "36e55985-0d83-40f7-84c4-5840934e20e6",
+      "name": "Generate article with DeepSeek1",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "position": [
+        340,
+        980
+      ],
+      "typeVersion": 1.8,
+      "credentials": {
+        "openAiApi": {
+          "id": "p3IzBlmoDBA5IIDS",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "property_job_id",
+              "field2": "job_id"
+            },
+            {
+              "field1": "property_job_link",
+              "field2": "job_url"
+            },
+            {
+              "field1": "property_job_match",
+              "field2": "job_match"
+            },
+            {
+              "field1": "property_time_posted",
+              "field2": "time_posted"
+            }
+          ]
+        },
+        "joinMode": "keepNonMatches",
+        "outputDataFrom": "input2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        580,
+        1120
+      ],
+      "id": "6e274d17-7909-4a66-9064-387d3ea6627c",
+      "name": "Merge Job Data1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.job_id }}",
+                    "rightValue": "={{ $json.property_job_id }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        900,
+        1100
+      ],
+      "id": "48f0d9a8-2122-458e-b36c-d0cf67ef4cc5",
+      "name": "Switch"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executionData",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        1080
+      ],
+      "id": "6fa6250f-23cf-4d5d-a052-d4552de6b9b6",
+      "name": "Execution Data"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "1904bf6b-83b3-80a9-99c0-d92afa4a31e1",
+          "mode": "list",
+          "cachedResultName": "Internship Search",
+          "cachedResultUrl": "https://www.notion.so/1904bf6b83b380a999c0d92afa4a31e1"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Job Id|number",
+              "numberValue": "={{ $json.job_id }}"
+            },
+            {
+              "key": "Job Link|url",
+              "urlValue": "={{ $json.job_url }}"
+            },
+            {
+              "key": "Company|rich_text",
+              "textContent": "={{ $json.company_name }}"
+            },
+            {
+              "key": "Job Title|title",
+              "title": "={{ $json.job_title }}"
+            },
+            {
+              "key": "Time Posted|rich_text",
+              "textContent": "={{ $json.time_posted }}"
+            },
+            {
+              "key": "Number Of Applicants|rich_text",
+              "textContent": "={{ $json.num_applicants }}"
+            },
+            {
+              "key": "Location|rich_text",
+              "textContent": "={{ $json.job_location }}"
+            },
+            {
+              "key": "=Experience Needed|rich_text",
+              "textContent": "={{ $json.experience_needed }}"
+            },
+            {
+              "key": "Job Description|rich_text",
+              "textContent": "={{ $json.description_content.length > 1997 ? $json.description_content.substring(0, 1997) + '...' : $json.description_content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1440,
+        340
+      ],
+      "id": "5a41b894-2634-47db-81a7-8bd731bade7b",
+      "name": "Notion: Create Job Entry",
+      "credentials": {
+        "notionApi": {
+          "id": "i2VF7jTgl2AkAKzI",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "property_job_id",
+              "field2": "job_id"
+            },
+            {
+              "field1": "property_job_link",
+              "field2": "job_url"
+            },
+            {
+              "field1": "property_job_match",
+              "field2": "job_match"
+            },
+            {
+              "field1": "property_time_posted",
+              "field2": "time_posted"
+            }
+          ]
+        },
+        "joinMode": "keepNonMatches",
+        "outputDataFrom": "input2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1740,
+        720
+      ],
+      "id": "7467384a-77c7-4467-99df-af1d836d5b78",
+      "name": "Data To Update"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "property_job_id",
+              "field2": "job_id"
+            },
+            {
+              "field1": "property_job_link",
+              "field2": "job_url"
+            },
+            {
+              "field1": "property_job_match",
+              "field2": "job_match"
+            }
+          ]
+        },
+        "joinMode": "keepNonMatches",
+        "outputDataFrom": "input2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1240,
+        340
+      ],
+      "id": "6e09878d-7bfc-4f9c-9e8f-52c8a2d7a126",
+      "name": "Data To Create"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Time Posted|rich_text",
+              "textContent": "={{ $('Data To Update').item.json.time_posted }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2160,
+        720
+      ],
+      "id": "3015c10c-6696-4004-83b8-352ecc3781f7",
+      "name": "Notion1",
+      "credentials": {
+        "notionApi": {
+          "id": "i2VF7jTgl2AkAKzI",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1904bf6b-83b3-80a9-99c0-d92afa4a31e1",
+          "mode": "list",
+          "cachedResultName": "Internship Search",
+          "cachedResultUrl": "https://www.notion.so/1904bf6b83b380a999c0d92afa4a31e1"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "key": "Job Id|number",
+              "condition": "equals",
+              "numberValue": "={{ $json.job_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1940,
+        720
+      ],
+      "id": "cbff3e1c-b065-4a3e-8d7d-ee49c9e6d248",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "i2VF7jTgl2AkAKzI",
+          "name": "Notion account"
+        }
+      }
     }
   ],
+  "pinData": {},
   "connections": {
     "Run Scraper Script": {
       "main": [
@@ -375,17 +662,6 @@
         [
           {
             "node": "Remove Duplicates1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Merge Job Data": {
-      "main": [
-        [
-          {
-            "node": "Notion: Create Job Entry",
             "type": "main",
             "index": 0
           }
@@ -456,7 +732,12 @@
       "main": [
         [
           {
-            "node": "Merge Job Data",
+            "node": "Data To Update",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Data To Create",
             "type": "main",
             "index": 1
           }
@@ -467,7 +748,65 @@
       "main": [
         [
           {
-            "node": "Merge Job Data",
+            "node": "Data To Update",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Data To Create",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        []
+      ]
+    },
+    "Merge Job Data1": {
+      "main": [
+        []
+      ]
+    },
+    "Execution Data": {
+      "main": [
+        []
+      ]
+    },
+    "Data To Update": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion1": {
+      "main": [
+        []
+      ]
+    },
+    "Data To Create": {
+      "main": [
+        [
+          {
+            "node": "Notion: Create Job Entry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Notion1",
             "type": "main",
             "index": 0
           }
@@ -475,9 +814,15 @@
       ]
     }
   },
-  "pinData": {},
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "be7e5256-b663-44c7-a69d-e81498034a05",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "595649ac935a6dff15bd8cea67f0462a3714768e71af7717e94e224aee2be70b"
-  }
+    "instanceId": "238d409f3ebff0e69a013366ecb830ef0fb1802af1fc88319da90f11fba572a1"
+  },
+  "id": "hHrooKM5caps3Ky5",
+  "tags": []
 }
