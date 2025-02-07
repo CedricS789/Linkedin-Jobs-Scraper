@@ -333,8 +333,7 @@ def fetch_job_details(job_id: str) -> dict:
         attempts += 1
 
     logger.error("Failed to fetch details for job ID %s after %d attempts. Last error: %s", job_id, max_attempts, last_error)
-    return None
-
+    return {}
 # ------------------------------
 # 5. Main: Process All Queries and Save CSV Output
 # ------------------------------
