@@ -1,4 +1,4 @@
-# 🌟 LinkedIn Job Scraper with Python and Deploy with n8n
+# 🌟 LinkedIn Job Scraper with Python and Deploying with n8n
 
 ## 📑 Table of Contents
 - [⚠️ Disclaimer](#-disclaimer)
