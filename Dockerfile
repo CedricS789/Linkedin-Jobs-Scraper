@@ -27,4 +27,4 @@ RUN chown node:node config.json scraper_final.py && \
 USER node
 
 # Expose the default n8n port
-EXPOSE 5678
+EXPOSE 8080
